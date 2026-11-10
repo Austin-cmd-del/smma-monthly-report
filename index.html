@@ -494,8 +494,10 @@
         document.getElementById("reviewForm").addEventListener("submit", function (e) {
           e.preventDefault();
           var lines = ["🐵 New scorecard: Raceday Window Cleaning"];
+          var values = {};
           KEYS.forEach(function (key) {
             var v = parseInt(document.getElementById("slider-" + key).value, 10);
+            values[key] = v + " - " + LEVELS[v].label;
             lines.push(NAMES[key] + ": " + v + " — " + LEVELS[v].face + " " + LEVELS[v].label);
           });
           var fix = document.getElementById("fix").value.trim();
@@ -507,6 +509,25 @@
           var done = document.getElementById("donePanel");
           done.classList.add("show");
           done.scrollIntoView({ behavior: "smooth", block: "start" });
+
+          // Background webhook: never blocks the page; the summary above
+          // shows regardless of whether this POST succeeds.
+          try {
+            fetch("https://hooks.zapier.com/hooks/catch/24884110/45ovb0t/", {
+              method: "POST",
+              mode: "no-cors",
+              headers: { "Content-Type": "application/json" },
+              body: JSON.stringify({
+                business: "Raceday Window Cleaning",
+                overall: values.overall,
+                results: values.results,
+                growth: values.growth,
+                communication: values.communication,
+                fix: fix,
+                best: best
+              })
+            }).catch(function () {});
+          } catch (err) { /* webhook failure must never affect the visitor */ }
         });
 
         document.getElementById("copyBtn").addEventListener("click", function () {
