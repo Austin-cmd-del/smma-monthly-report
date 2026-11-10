@@ -1,0 +1,525 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <meta name="color-scheme" content="light dark" />
+    <link rel="icon" href="data:," />
+    <title>SMMA Monthly Report and Review</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <style>
+      :root {
+        color-scheme: light dark;
+        --bg: #f2f6ef;
+        --surface: #ffffff;
+        --surface-2: #e9f1e2;
+        --ink: #16301d;
+        --ink-soft: #47604d;
+        --line: #d3dfc9;
+        --brand: #1d5c33;
+        --brand-ink: #ffffff;
+        --banana: #f4b41f;
+        --banana-soft: #fdf3d3;
+        --good: #2e8b47;
+        --mid: #d99a16;
+        --bad: #d9532b;
+        --track: #dce7d2;
+        --shadow: 0 10px 30px rgba(22, 48, 29, 0.10);
+        --radius: 18px;
+      }
+      @media (prefers-color-scheme: dark) {
+        :root {
+          --bg: #0c1a10;
+          --surface: #14261a;
+          --surface-2: #1a2f20;
+          --ink: #eef6ea;
+          --ink-soft: #a9c2ab;
+          --line: #2c4634;
+          --brand: #2e7d46;
+          --banana-soft: #3a2f10;
+          --track: #2c4634;
+          --shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
+        }
+      }
+      * { box-sizing: border-box; }
+      html { -webkit-text-size-adjust: 100%; }
+      body {
+        margin: 0;
+        background: var(--bg);
+        color: var(--ink);
+        font-family: "Public Sans", system-ui, -apple-system, sans-serif;
+        font-size: 16px;
+        line-height: 1.5;
+      }
+      main {
+        max-width: 680px;
+        margin: 0 auto;
+        padding: 20px 16px 48px;
+      }
+      h1, h2, h3 {
+        font-family: "Bricolage Grotesque", "Public Sans", sans-serif;
+        line-height: 1.12;
+        margin: 0;
+      }
+
+      /* ---------- Report ---------- */
+      .report {
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        overflow: hidden;
+      }
+      .report-head {
+        background: var(--brand);
+        color: var(--brand-ink);
+        padding: 22px 22px 20px;
+      }
+      .report-kicker {
+        font-size: 0.8rem;
+        font-weight: 700;
+        letter-spacing: 0.08em;
+        text-transform: uppercase;
+        opacity: 0.85;
+        margin: 0 0 6px;
+      }
+      .report-head h1 {
+        font-size: clamp(1.7rem, 6vw, 2.3rem);
+        font-weight: 800;
+      }
+      .report-head .sub {
+        margin: 8px 0 0;
+        font-size: 0.98rem;
+        opacity: 0.92;
+      }
+      .period {
+        display: inline-block;
+        margin-top: 14px;
+        background: rgba(255, 255, 255, 0.16);
+        border: 1px solid rgba(255, 255, 255, 0.35);
+        border-radius: 999px;
+        padding: 5px 12px;
+        font-size: 0.82rem;
+        font-weight: 600;
+      }
+      .stats {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: 1px;
+        background: var(--line);
+      }
+      .stat {
+        background: var(--surface);
+        padding: 18px 14px 16px;
+        text-align: center;
+      }
+      .stat .value {
+        font-family: "Bricolage Grotesque", sans-serif;
+        font-size: clamp(1.45rem, 5.5vw, 2rem);
+        font-weight: 800;
+        line-height: 1.05;
+      }
+      .stat .label {
+        margin-top: 5px;
+        font-size: 0.82rem;
+        font-weight: 600;
+        color: var(--ink-soft);
+      }
+      .report-note {
+        padding: 14px 22px 18px;
+        font-size: 0.92rem;
+        color: var(--ink-soft);
+        background: var(--surface);
+      }
+      .report-note strong { color: var(--ink); }
+
+      /* ---------- Review ---------- */
+      .review {
+        margin-top: 22px;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 24px 22px 26px;
+      }
+      .review h2 {
+        font-size: clamp(1.35rem, 5vw, 1.7rem);
+        font-weight: 800;
+      }
+      .review .lede {
+        margin: 8px 0 4px;
+        color: var(--ink-soft);
+        font-size: 0.95rem;
+      }
+      .slider-block {
+        padding: 18px 0 6px;
+        border-bottom: 1px solid var(--line);
+      }
+      .slider-block:last-of-type { border-bottom: none; }
+      .slider-top {
+        display: flex;
+        align-items: baseline;
+        justify-content: space-between;
+        gap: 12px;
+        flex-wrap: wrap;
+      }
+      .slider-name {
+        font-weight: 700;
+        font-size: 1.05rem;
+      }
+      .slider-desc {
+        color: var(--ink-soft);
+        font-size: 0.88rem;
+        margin-top: 2px;
+      }
+      .slider-face {
+        font-size: 1.9rem;
+        line-height: 1;
+        white-space: nowrap;
+      }
+      .slider-readout {
+        margin-top: 8px;
+        font-weight: 700;
+        font-size: 1rem;
+      }
+      .slider-readout .score-num { color: var(--ink-soft); font-weight: 600; }
+      input[type="range"] {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 100%;
+        height: 48px;
+        background: transparent;
+        margin: 2px 0 0;
+        cursor: pointer;
+        --fill: var(--mid);
+      }
+      input[type="range"]::-webkit-slider-runnable-track {
+        height: 12px;
+        border-radius: 999px;
+        background: var(--track);
+      }
+      input[type="range"]::-webkit-slider-thumb {
+        -webkit-appearance: none;
+        appearance: none;
+        width: 34px;
+        height: 34px;
+        margin-top: -11px;
+        border-radius: 50%;
+        background: var(--fill);
+        border: 3px solid var(--surface);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.28);
+      }
+      input[type="range"]::-moz-range-track {
+        height: 12px;
+        border-radius: 999px;
+        background: var(--track);
+      }
+      input[type="range"]::-moz-range-thumb {
+        width: 28px;
+        height: 28px;
+        border-radius: 50%;
+        background: var(--fill);
+        border: 3px solid var(--surface);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.28);
+      }
+      input[type="range"]:focus-visible {
+        outline: 3px solid var(--banana);
+        outline-offset: 2px;
+        border-radius: 8px;
+      }
+      .scale-ends {
+        display: flex;
+        justify-content: space-between;
+        font-size: 0.78rem;
+        color: var(--ink-soft);
+        margin-top: -4px;
+        padding-bottom: 8px;
+      }
+
+      .field { margin-top: 20px; }
+      .field label {
+        display: block;
+        font-weight: 700;
+        font-size: 1.02rem;
+        margin-bottom: 4px;
+      }
+      .field .hint {
+        color: var(--ink-soft);
+        font-size: 0.88rem;
+        margin-bottom: 8px;
+      }
+      textarea {
+        width: 100%;
+        min-height: 84px;
+        resize: vertical;
+        border: 1.5px solid var(--line);
+        border-radius: 12px;
+        background: var(--bg);
+        color: var(--ink);
+        font: inherit;
+        font-size: 1rem;
+        padding: 12px 14px;
+      }
+      textarea:focus-visible {
+        outline: 3px solid var(--banana);
+        outline-offset: 1px;
+      }
+      .submit-btn {
+        display: block;
+        width: 100%;
+        margin-top: 24px;
+        min-height: 54px;
+        border: none;
+        border-radius: 14px;
+        background: var(--banana);
+        color: #221a02;
+        font-family: "Bricolage Grotesque", sans-serif;
+        font-size: 1.15rem;
+        font-weight: 800;
+        cursor: pointer;
+      }
+      .submit-btn:active { transform: translateY(1px); }
+      .submit-btn:focus-visible {
+        outline: 3px solid var(--brand);
+        outline-offset: 2px;
+      }
+      .time-note {
+        text-align: center;
+        color: var(--ink-soft);
+        font-size: 0.85rem;
+        margin-top: 10px;
+      }
+
+      /* ---------- Done panel ---------- */
+      .done {
+        margin-top: 22px;
+        background: var(--surface);
+        border: 1px solid var(--line);
+        border-radius: var(--radius);
+        box-shadow: var(--shadow);
+        padding: 24px 22px 26px;
+        display: none;
+      }
+      .done.show { display: block; }
+      .done h2 { font-size: 1.5rem; font-weight: 800; }
+      .done .thanks { color: var(--ink-soft); margin: 8px 0 16px; }
+      .summary-box {
+        background: var(--surface-2);
+        border-radius: 12px;
+        padding: 16px 18px;
+        white-space: pre-wrap;
+        font-size: 0.98rem;
+        line-height: 1.6;
+      }
+      .copy-btn {
+        display: block;
+        width: 100%;
+        margin-top: 16px;
+        min-height: 48px;
+        border-radius: 12px;
+        border: 2px solid var(--brand);
+        background: transparent;
+        color: var(--ink);
+        font-family: "Bricolage Grotesque", sans-serif;
+        font-size: 1.05rem;
+        font-weight: 700;
+        cursor: pointer;
+      }
+      .copy-btn:focus-visible {
+        outline: 3px solid var(--banana);
+        outline-offset: 2px;
+      }
+      .copy-note {
+        text-align: center;
+        color: var(--ink-soft);
+        font-size: 0.85rem;
+        margin-top: 8px;
+        min-height: 1.2em;
+      }
+
+      @media (max-width: 420px) {
+        .stats { grid-template-columns: 1fr 1fr 1fr; }
+        .stat { padding: 14px 8px 12px; }
+        .report-head, .review, .done { padding-left: 16px; padding-right: 16px; }
+        .report-note { padding-left: 16px; padding-right: 16px; }
+      }
+    </style>
+  </head>
+  <body>
+    <main>
+      <!-- ======= READ-ONLY META ADS REPORT ======= -->
+      <section class="report" aria-label="Your Meta ads report">
+        <div class="report-head">
+          <p class="report-kicker">Your Meta ads report</p>
+          <h1>Raceday Window Cleaning</h1>
+          <p class="sub">Your results, exactly as Meta recorded them. Just read them. Nothing here can be changed.</p>
+          <span class="period">Since your ads launched · Checked Nov 10, 2026</span>
+        </div>
+        <div class="stats">
+          <div class="stat">
+            <div class="value">$214.77</div>
+            <div class="label">Ad spend</div>
+          </div>
+          <div class="stat">
+            <div class="value">8</div>
+            <div class="label">Leads</div>
+          </div>
+          <div class="stat">
+            <div class="value">$26.85</div>
+            <div class="label">Cost per lead</div>
+          </div>
+        </div>
+        <p class="report-note">That&rsquo;s <strong>8 people</strong> who asked for a quote through your ads so far. Then tell us how we&rsquo;re doing below. It takes about a minute.</p>
+      </section>
+
+      <!-- ======= SERVICE REVIEW ======= -->
+      <form class="review" id="reviewForm" aria-label="Review our service">
+        <h2>How happy are you with our service?</h2>
+        <p class="lede">This score is about SMMA&rsquo;s service only: our work, our communication, and how we run your ads. Slide each monkey from sad to happy.</p>
+
+        <div class="slider-block">
+          <div class="slider-top">
+            <div>
+              <div class="slider-name">Overall</div>
+              <div class="slider-desc">The whole service, all in.</div>
+            </div>
+            <div class="slider-face" id="face-overall" aria-hidden="true">😐🐵</div>
+          </div>
+          <div class="slider-readout" aria-live="polite"><span id="label-overall">It&rsquo;s okay</span> <span class="score-num" id="num-overall">· 3 of 5</span></div>
+          <input type="range" id="slider-overall" min="1" max="5" step="1" value="3" aria-label="Overall happiness, 1 to 5" />
+          <div class="scale-ends"><span>😫 Not happy</span><span>Love it 😄</span></div>
+        </div>
+
+        <div class="slider-block">
+          <div class="slider-top">
+            <div>
+              <div class="slider-name">Results</div>
+              <div class="slider-desc">Were you happy with the results in the report above?</div>
+            </div>
+            <div class="slider-face" id="face-results" aria-hidden="true">😐🐵</div>
+          </div>
+          <div class="slider-readout" aria-live="polite"><span id="label-results">It&rsquo;s okay</span> <span class="score-num" id="num-results">· 3 of 5</span></div>
+          <input type="range" id="slider-results" min="1" max="5" step="1" value="3" aria-label="Results happiness, 1 to 5" />
+          <div class="scale-ends"><span>😫 Not happy</span><span>Love it 😄</span></div>
+        </div>
+
+        <div class="slider-block">
+          <div class="slider-top">
+            <div>
+              <div class="slider-name">Growth</div>
+              <div class="slider-desc">Is the business heading the right direction since we started?</div>
+            </div>
+            <div class="slider-face" id="face-growth" aria-hidden="true">😐🐵</div>
+          </div>
+          <div class="slider-readout" aria-live="polite"><span id="label-growth">It&rsquo;s okay</span> <span class="score-num" id="num-growth">· 3 of 5</span></div>
+          <input type="range" id="slider-growth" min="1" max="5" step="1" value="3" aria-label="Growth happiness, 1 to 5" />
+          <div class="scale-ends"><span>😫 Not happy</span><span>Love it 😄</span></div>
+        </div>
+
+        <div class="slider-block">
+          <div class="slider-top">
+            <div>
+              <div class="slider-name">Communication</div>
+              <div class="slider-desc">Reports, updates, and how fast we answer you.</div>
+            </div>
+            <div class="slider-face" id="face-communication" aria-hidden="true">😐🐵</div>
+          </div>
+          <div class="slider-readout" aria-live="polite"><span id="label-communication">It&rsquo;s okay</span> <span class="score-num" id="num-communication">· 3 of 5</span></div>
+          <input type="range" id="slider-communication" min="1" max="5" step="1" value="3" aria-label="Communication happiness, 1 to 5" />
+          <div class="scale-ends"><span>😫 Not happy</span><span>Love it 😄</span></div>
+        </div>
+
+        <div class="field">
+          <label for="fix">Anything bugging you? Complaints we should fix:</label>
+          <p class="hint">Big or small, list it here and it goes on our fix list.</p>
+          <textarea id="fix" placeholder="Type here…"></textarea>
+        </div>
+
+        <div class="field">
+          <label for="best">Best part so far:</label>
+          <p class="hint">What should we absolutely keep doing?</p>
+          <textarea id="best" placeholder="Type here…"></textarea>
+        </div>
+
+        <button type="submit" class="submit-btn">Send my review</button>
+        <p class="time-note">Takes about a minute. Your answers come straight to us.</p>
+      </form>
+
+      <!-- ======= DONE ======= -->
+      <section class="done" id="donePanel" aria-label="Your review summary">
+        <h2>Thank you! 🐒</h2>
+        <p class="thanks">Your review is in. Here&rsquo;s exactly what you told us:</p>
+        <div class="summary-box" id="summaryBox"></div>
+        <button type="button" class="copy-btn" id="copyBtn">Copy my review</button>
+        <p class="copy-note" id="copyNote" aria-live="polite"></p>
+      </section>
+    </main>
+
+    <script>
+      (function () {
+        var LEVELS = {
+          1: { face: "😫🐵", label: "Not happy", color: "#d9532b" },
+          2: { face: "🙁🐵", label: "Don’t love it", color: "#e07b39" },
+          3: { face: "😐🐵", label: "It’s okay", color: "#d99a16" },
+          4: { face: "🙂🐵", label: "Like it", color: "#5da24a" },
+          5: { face: "😄🐒", label: "Love it", color: "#2e8b47" }
+        };
+        var KEYS = ["overall", "results", "growth", "communication"];
+        var NAMES = {
+          overall: "Overall",
+          results: "Results",
+          growth: "Growth",
+          communication: "Communication"
+        };
+
+        function paint(key) {
+          var slider = document.getElementById("slider-" + key);
+          var v = parseInt(slider.value, 10);
+          var lvl = LEVELS[v];
+          document.getElementById("face-" + key).textContent = lvl.face;
+          document.getElementById("label-" + key).textContent = lvl.label;
+          document.getElementById("num-" + key).textContent = "· " + v + " of 5";
+          slider.style.setProperty("--fill", lvl.color);
+        }
+
+        KEYS.forEach(function (key) {
+          var slider = document.getElementById("slider-" + key);
+          slider.addEventListener("input", function () { paint(key); });
+          paint(key);
+        });
+
+        var lastSummary = "";
+        document.getElementById("reviewForm").addEventListener("submit", function (e) {
+          e.preventDefault();
+          var lines = ["🐵 New scorecard: Raceday Window Cleaning"];
+          KEYS.forEach(function (key) {
+            var v = parseInt(document.getElementById("slider-" + key).value, 10);
+            lines.push(NAMES[key] + ": " + v + " — " + LEVELS[v].face + " " + LEVELS[v].label);
+          });
+          var fix = document.getElementById("fix").value.trim();
+          var best = document.getElementById("best").value.trim();
+          lines.push("Fix: " + (fix ? fix : "—"));
+          lines.push("Best: " + (best ? best : "—"));
+          lastSummary = lines.join("\n");
+          document.getElementById("summaryBox").textContent = lastSummary;
+          var done = document.getElementById("donePanel");
+          done.classList.add("show");
+          done.scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+
+        document.getElementById("copyBtn").addEventListener("click", function () {
+          var note = document.getElementById("copyNote");
+          function ok() { note.textContent = "Copied — paste it anywhere."; }
+          function fail() { note.textContent = "Copy didn’t work here — your review is in the box above."; }
+          if (navigator.clipboard && navigator.clipboard.writeText) {
+            navigator.clipboard.writeText(lastSummary).then(ok, fail);
+          } else {
+            fail();
+          }
+        });
+      })();
+    </script>
+  </body>
+</html>
