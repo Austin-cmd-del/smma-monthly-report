@@ -389,6 +389,21 @@
         outline: 3px solid var(--banana);
         outline-offset: 1px;
       }
+      .modal-field select {
+        width: 100%;
+        min-height: 50px;
+        border: 1.5px solid var(--line);
+        border-radius: 14px;
+        background: var(--bg);
+        color: var(--ink);
+        font: inherit;
+        font-size: 1rem;
+        padding: 12px 14px;
+      }
+      .modal-field select:focus-visible {
+        outline: 3px solid var(--banana);
+        outline-offset: 1px;
+      }
       .modal-error {
         color: var(--bad);
         font-size: 0.88rem;
@@ -580,23 +595,35 @@
       <div class="modal-overlay" id="referralOverlay">
         <div class="modal-card" role="dialog" aria-modal="true" aria-labelledby="referralTitle">
           <div id="referralFormView">
-            <h2 id="referralTitle">Know someone who needs this? 🐒</h2>
-            <p class="modal-body">You know how it feels when new leads aren&rsquo;t coming in consistently.</p>
-            <p class="modal-body">Yours are now. So help them out. Send them our way, and if they sign up, you get $50 off next month.</p>
+            <h2 id="referralTitle">Know someone who needs this?</h2>
+            <p class="modal-body">You know how it feels when leads aren&rsquo;t coming in. Yours are now. Send them our way. If they sign up, there&rsquo;s a $50 bonus.</p>
             <div class="modal-field">
-              <label for="referralName">Their name</label>
-              <input type="text" id="referralName" autocomplete="off" placeholder="Type here…" />
+              <label for="referralPhone">Phone number</label>
+              <input type="tel" id="referralPhone" autocomplete="off" placeholder="Type here…" />
             </div>
             <div class="modal-field">
-              <label for="referralContact">Their phone or business name</label>
-              <input type="text" id="referralContact" autocomplete="off" placeholder="Type here…" />
+              <label for="referralBusiness">Business name</label>
+              <input type="text" id="referralBusiness" autocomplete="off" placeholder="Type here…" />
+            </div>
+            <div class="modal-field">
+              <label for="referralIndustry">Industry</label>
+              <input type="text" id="referralIndustry" autocomplete="off" placeholder="Roofing, HVAC, dental…" />
+            </div>
+            <div class="modal-field">
+              <label for="referralBonus">Who gets the $50 bonus?</label>
+              <select id="referralBonus">
+                <option value="" selected>Pick one</option>
+                <option value="They get a discount on their first month">They get a discount on their first month</option>
+                <option value="I&rsquo;ll take the cash">I&rsquo;ll take the cash</option>
+              </select>
             </div>
             <p class="modal-error" id="referralError" aria-live="polite"></p>
             <button type="button" class="modal-send" id="referralSend">Send referral</button>
             <button type="button" class="modal-skip" id="referralSkip">No thanks</button>
           </div>
           <div id="referralDoneView" hidden>
-            <h2>Got it — thank you! 🐒 We&rsquo;ll take it from here.</h2>
+            <h2>Got it. Thank you!</h2>
+            <p class="modal-body">Surprise: you both get the bonus. If they sign up, they get $50 off their first month, and you get $50 off yours.</p>
             <button type="button" class="modal-close" id="referralClose">Close</button>
           </div>
         </div>
@@ -708,7 +735,7 @@
         function openReferral() {
           resetSkipDodge();
           referralOverlay.classList.add("show");
-          var nameInput = document.getElementById("referralName");
+          var nameInput = document.getElementById("referralPhone");
           if (nameInput) { nameInput.focus(); }
         }
         function closeReferral() {
@@ -717,11 +744,12 @@
         }
 
         function dodgeSkip() {
-          var dx = Math.round(Math.random() * 160 - 80);
-          var dy = Math.round(Math.random() * 24 - 8);
-          // Guarantee a noticeable hop if the random pick was near zero.
-          if (Math.abs(dx) < 28) {
-            dx = dx < 0 ? -52 : 52;
+          var dx = Math.round(Math.random() * 300 - 150);
+          var dy = Math.round(Math.random() * 56 - 16);
+          // Guarantee a big, obvious hop if the random pick was small -
+          // the dodge is a joke and has to read as one.
+          if (Math.abs(dx) < 90) {
+            dx = dx < 0 ? -110 : 110;
           }
           // Clamp so the button stays fully visible inside the card,
           // even on narrow mobile widths.
@@ -770,11 +798,13 @@
         });
 
         document.getElementById("referralSend").addEventListener("click", function () {
-          var name = document.getElementById("referralName").value.trim();
-          var contact = document.getElementById("referralContact").value.trim();
+          var phone = document.getElementById("referralPhone").value.trim();
+          var refBusiness = document.getElementById("referralBusiness").value.trim();
+          var industry = document.getElementById("referralIndustry").value.trim();
+          var bonusTo = document.getElementById("referralBonus").value.trim();
           var error = document.getElementById("referralError");
-          if (!name || !contact) {
-            error.textContent = "Please fill in both boxes so we know who to reach out to.";
+          if (!phone || !refBusiness) {
+            error.textContent = "Please add their phone number and business name so we know who to reach out to.";
             return;
           }
           error.textContent = "";
@@ -788,8 +818,10 @@
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
                 business: "Raceday Window Cleaning",
-                referral_name: name,
-                referral_contact: contact
+                referral_phone: phone,
+                referral_business: refBusiness,
+                referral_industry: industry,
+                referral_bonus_to: bonusTo
               })
             }).catch(function () {});
           } catch (err) { /* webhook failure must never affect the visitor */ }
