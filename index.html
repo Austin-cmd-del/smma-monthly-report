@@ -690,11 +690,21 @@
         var referralOverlay = document.getElementById("referralOverlay");
         var referralSkipBtn = document.getElementById("referralSkip");
         var skipDodgeCount = 0;
+        var skipAutoCloseTimer = null;
+
+        function clearSkipAutoClose() {
+          if (skipAutoCloseTimer !== null) {
+            clearTimeout(skipAutoCloseTimer);
+            skipAutoCloseTimer = null;
+          }
+        }
 
         function resetSkipDodge() {
           skipDodgeCount = 0;
+          clearSkipAutoClose();
           if (referralSkipBtn) {
             referralSkipBtn.style.transform = "";
+            referralSkipBtn.textContent = "No thanks";
           }
         }
 
@@ -705,6 +715,7 @@
           if (nameInput) { nameInput.focus(); }
         }
         function closeReferral() {
+          clearSkipAutoClose();
           referralOverlay.classList.remove("show");
         }
 
@@ -738,6 +749,17 @@
           if (skipDodgeCount < 2) {
             skipDodgeCount++;
             dodgeSkip();
+            return;
+          }
+          if (skipDodgeCount === 2) {
+            skipDodgeCount = 3;
+            referralSkipBtn.style.transform = "";
+            referralSkipBtn.textContent = "just kidding";
+            clearSkipAutoClose();
+            skipAutoCloseTimer = setTimeout(function () {
+              skipAutoCloseTimer = null;
+              closeReferral();
+            }, 1000);
             return;
           }
           closeReferral();
