@@ -488,7 +488,7 @@
       <section class="report" aria-label="Your Meta ads report">
         <div class="report-head">
           <p class="report-kicker">Your Meta ads report</p>
-          <h1>Raceday Window Cleaning</h1>
+          <h1>Raceday Windows</h1>
           <p class="sub">Your results, exactly as Meta recorded them. Just read them. Nothing here can be changed.</p>
           <span class="period">Since your ads launched · Checked Nov 10, 2026</span>
         </div>
@@ -667,7 +667,7 @@
         var lastSummary = "";
         document.getElementById("reviewForm").addEventListener("submit", function (e) {
           e.preventDefault();
-          var lines = ["🐵 New scorecard: Raceday Window Cleaning"];
+          var lines = ["🐵 New scorecard: Raceday Windows"];
           var values = {};
           KEYS.forEach(function (key) {
             var v = parseInt(document.getElementById("slider-" + key).value, 10);
@@ -698,7 +698,7 @@
               mode: "no-cors",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
-                business: "Raceday Window Cleaning",
+                business: "Raceday Windows",
                 overall: values.overall,
                 results: values.results,
                 growth: values.growth,
@@ -817,7 +817,7 @@
               mode: "no-cors",
               headers: { "Content-Type": "application/json" },
               body: JSON.stringify({
-                business: "Raceday Window Cleaning",
+                business: "Raceday Windows",
                 referral_phone: phone,
                 referral_business: refBusiness,
                 referral_industry: industry,
