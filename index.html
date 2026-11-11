@@ -436,6 +436,8 @@
         letter-spacing: 0.01em;
         opacity: 0.75;
         cursor: pointer;
+        transition: transform 0.25s ease;
+        will-change: transform;
       }
       .modal-skip:focus-visible {
         outline: 3px solid var(--banana);
@@ -686,8 +688,18 @@
 
         /* ---------- Referral popup ---------- */
         var referralOverlay = document.getElementById("referralOverlay");
+        var referralSkipBtn = document.getElementById("referralSkip");
+        var skipDodgeCount = 0;
+
+        function resetSkipDodge() {
+          skipDodgeCount = 0;
+          if (referralSkipBtn) {
+            referralSkipBtn.style.transform = "";
+          }
+        }
 
         function openReferral() {
+          resetSkipDodge();
           referralOverlay.classList.add("show");
           var nameInput = document.getElementById("referralName");
           if (nameInput) { nameInput.focus(); }
@@ -696,7 +708,40 @@
           referralOverlay.classList.remove("show");
         }
 
-        document.getElementById("referralSkip").addEventListener("click", closeReferral);
+        function dodgeSkip() {
+          var dx = Math.round(Math.random() * 160 - 80);
+          var dy = Math.round(Math.random() * 24 - 8);
+          // Guarantee a noticeable hop if the random pick was near zero.
+          if (Math.abs(dx) < 28) {
+            dx = dx < 0 ? -52 : 52;
+          }
+          // Clamp so the button stays fully visible inside the card,
+          // even on narrow mobile widths.
+          var card = referralSkipBtn.closest ? referralSkipBtn.closest(".modal-card") : null;
+          if (card) {
+            var cardRect = card.getBoundingClientRect();
+            var btnRect = referralSkipBtn.getBoundingClientRect();
+            var pad = 8;
+            var minDx = (cardRect.left + pad) - btnRect.left;
+            var maxDx = (cardRect.right - pad) - btnRect.right;
+            var minDy = (cardRect.top + pad) - btnRect.top;
+            var maxDy = (cardRect.bottom - pad) - btnRect.bottom;
+            if (dx < minDx) { dx = Math.round(minDx); }
+            if (dx > maxDx) { dx = Math.round(maxDx); }
+            if (dy < minDy) { dy = Math.round(minDy); }
+            if (dy > maxDy) { dy = Math.round(maxDy); }
+          }
+          referralSkipBtn.style.transform = "translate(" + dx + "px, " + dy + "px)";
+        }
+
+        referralSkipBtn.addEventListener("click", function () {
+          if (skipDodgeCount < 2) {
+            skipDodgeCount++;
+            dodgeSkip();
+            return;
+          }
+          closeReferral();
+        });
         document.getElementById("referralClose").addEventListener("click", closeReferral);
         referralOverlay.addEventListener("click", function (e) {
           if (e.target === referralOverlay) { closeReferral(); }
