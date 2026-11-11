@@ -3,45 +3,31 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
-    <meta name="color-scheme" content="light dark" />
+    <meta name="color-scheme" content="light" />
     <link rel="icon" href="data:," />
     <title>SMMA Monthly Report and Review</title>
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,500;12..96,700;12..96,800&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
     <style>
       :root {
-        color-scheme: light dark;
-        --bg: #f2f6ef;
+        color-scheme: light;
+        --bg: #ffffff;
         --surface: #ffffff;
-        --surface-2: #e9f1e2;
-        --ink: #16301d;
-        --ink-soft: #47604d;
-        --line: #d3dfc9;
-        --brand: #1d5c33;
+        --surface-2: #faf6ef;
+        --ink: #1a1a1a;
+        --ink-soft: #6b7280;
+        --line: #e9e4db;
+        --brand: #ff7a18;
         --brand-ink: #ffffff;
-        --banana: #f4b41f;
-        --banana-soft: #fdf3d3;
+        --banana: #ff9e2c;
+        --banana-soft: #fdf0dd;
         --good: #2e8b47;
-        --mid: #d99a16;
+        --mid: #e8930c;
         --bad: #d9532b;
-        --track: #dce7d2;
-        --shadow: 0 10px 30px rgba(22, 48, 29, 0.10);
-        --radius: 18px;
-      }
-      @media (prefers-color-scheme: dark) {
-        :root {
-          --bg: #0c1a10;
-          --surface: #14261a;
-          --surface-2: #1a2f20;
-          --ink: #eef6ea;
-          --ink-soft: #a9c2ab;
-          --line: #2c4634;
-          --brand: #2e7d46;
-          --banana-soft: #3a2f10;
-          --track: #2c4634;
-          --shadow: 0 10px 30px rgba(0, 0, 0, 0.45);
-        }
+        --track: #f1ece2;
+        --shadow: 0 8px 28px rgba(26, 26, 26, 0.07);
+        --radius: 20px;
       }
       * { box-sizing: border-box; }
       html { -webkit-text-size-adjust: 100%; }
@@ -52,16 +38,23 @@
         font-family: "Public Sans", system-ui, -apple-system, sans-serif;
         font-size: 16px;
         line-height: 1.5;
+        -webkit-font-smoothing: antialiased;
       }
       main {
         max-width: 680px;
         margin: 0 auto;
-        padding: 20px 16px 48px;
+        padding: 28px 16px 56px;
       }
       h1, h2, h3 {
-        font-family: "Bricolage Grotesque", "Public Sans", sans-serif;
+        font-family: "Public Sans", system-ui, sans-serif;
+        letter-spacing: -0.02em;
         line-height: 1.12;
         margin: 0;
+      }
+      .brandmark {
+        display: block;
+        width: 104px;
+        margin: 40px auto 0;
       }
 
       /* ---------- Report ---------- */
@@ -73,17 +66,17 @@
         overflow: hidden;
       }
       .report-head {
-        background: var(--brand);
-        color: var(--brand-ink);
-        padding: 22px 22px 20px;
+        background: var(--surface);
+        color: var(--ink);
+        padding: 26px 22px 6px;
       }
       .report-kicker {
-        font-size: 0.8rem;
+        font-size: 0.78rem;
         font-weight: 700;
-        letter-spacing: 0.08em;
+        letter-spacing: 0.14em;
         text-transform: uppercase;
-        opacity: 0.85;
-        margin: 0 0 6px;
+        color: var(--brand);
+        margin: 0 0 8px;
       }
       .report-head h1 {
         font-size: clamp(1.7rem, 6vw, 2.3rem);
@@ -92,13 +85,14 @@
       .report-head .sub {
         margin: 8px 0 0;
         font-size: 0.98rem;
-        opacity: 0.92;
+        color: var(--ink-soft);
       }
       .period {
         display: inline-block;
         margin-top: 14px;
-        background: rgba(255, 255, 255, 0.16);
-        border: 1px solid rgba(255, 255, 255, 0.35);
+        background: #fff6ea;
+        border: 1px solid #f3d9b8;
+        color: #8a5a12;
         border-radius: 999px;
         padding: 5px 12px;
         font-size: 0.82rem;
@@ -116,7 +110,7 @@
         text-align: center;
       }
       .stat .value {
-        font-family: "Bricolage Grotesque", sans-serif;
+        font-family: "Public Sans", sans-serif;
         font-size: clamp(1.45rem, 5.5vw, 2rem);
         font-weight: 800;
         line-height: 1.05;
@@ -128,7 +122,7 @@
         color: var(--ink-soft);
       }
       .report-note {
-        padding: 14px 22px 18px;
+        padding: 14px 22px 20px;
         font-size: 0.92rem;
         color: var(--ink-soft);
         background: var(--surface);
@@ -137,12 +131,12 @@
 
       /* ---------- Review ---------- */
       .review {
-        margin-top: 22px;
+        margin-top: 26px;
         background: var(--surface);
         border: 1px solid var(--line);
         border-radius: var(--radius);
         box-shadow: var(--shadow);
-        padding: 24px 22px 26px;
+        padding: 26px 22px 28px;
       }
       .review h2 {
         font-size: clamp(1.35rem, 5vw, 1.7rem);
@@ -209,7 +203,7 @@
         border-radius: 50%;
         background: var(--fill);
         border: 3px solid var(--surface);
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.28);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.22);
       }
       input[type="range"]::-moz-range-track {
         height: 12px;
@@ -222,7 +216,7 @@
         border-radius: 50%;
         background: var(--fill);
         border: 3px solid var(--surface);
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.28);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.22);
       }
       input[type="range"]:focus-visible {
         outline: 3px solid var(--banana);
@@ -255,7 +249,7 @@
         min-height: 84px;
         resize: vertical;
         border: 1.5px solid var(--line);
-        border-radius: 12px;
+        border-radius: 14px;
         background: var(--bg);
         color: var(--ink);
         font: inherit;
@@ -269,16 +263,17 @@
       .submit-btn {
         display: block;
         width: 100%;
-        margin-top: 24px;
-        min-height: 54px;
+        margin-top: 26px;
+        min-height: 56px;
         border: none;
-        border-radius: 14px;
-        background: var(--banana);
-        color: #221a02;
-        font-family: "Bricolage Grotesque", sans-serif;
-        font-size: 1.15rem;
+        border-radius: 999px;
+        background: linear-gradient(135deg, #ff6a00, #ffab2e);
+        color: #ffffff;
+        font-family: "Public Sans", sans-serif;
+        font-size: 1.12rem;
         font-weight: 800;
         cursor: pointer;
+        box-shadow: 0 8px 20px rgba(255, 122, 24, 0.28);
       }
       .submit-btn:active { transform: translateY(1px); }
       .submit-btn:focus-visible {
@@ -294,12 +289,12 @@
 
       /* ---------- Done panel ---------- */
       .done {
-        margin-top: 22px;
+        margin-top: 26px;
         background: var(--surface);
         border: 1px solid var(--line);
         border-radius: var(--radius);
         box-shadow: var(--shadow);
-        padding: 24px 22px 26px;
+        padding: 26px 22px 28px;
         display: none;
       }
       .done.show { display: block; }
@@ -307,7 +302,7 @@
       .done .thanks { color: var(--ink-soft); margin: 8px 0 16px; }
       .summary-box {
         background: var(--surface-2);
-        border-radius: 12px;
+        border-radius: 14px;
         padding: 16px 18px;
         white-space: pre-wrap;
         font-size: 0.98rem;
@@ -318,11 +313,11 @@
         width: 100%;
         margin-top: 16px;
         min-height: 48px;
-        border-radius: 12px;
-        border: 2px solid var(--brand);
+        border-radius: 999px;
+        border: 1.5px solid var(--ink);
         background: transparent;
         color: var(--ink);
-        font-family: "Bricolage Grotesque", sans-serif;
+        font-family: "Public Sans", sans-serif;
         font-size: 1.05rem;
         font-weight: 700;
         cursor: pointer;
@@ -344,7 +339,7 @@
         position: fixed;
         inset: 0;
         z-index: 50;
-        background: rgba(10, 26, 15, 0.62);
+        background: rgba(24, 18, 10, 0.55);
         display: none;
         align-items: center;
         justify-content: center;
@@ -383,7 +378,7 @@
         width: 100%;
         min-height: 50px;
         border: 1.5px solid var(--line);
-        border-radius: 12px;
+        border-radius: 14px;
         background: var(--bg);
         color: var(--ink);
         font: inherit;
@@ -407,13 +402,14 @@
         margin-top: 6px;
         min-height: 54px;
         border: none;
-        border-radius: 14px;
-        background: var(--banana);
-        color: #221a02;
-        font-family: "Bricolage Grotesque", sans-serif;
-        font-size: 1.12rem;
+        border-radius: 999px;
+        background: linear-gradient(135deg, #ff6a00, #ffab2e);
+        color: #ffffff;
+        font-family: "Public Sans", sans-serif;
+        font-size: 1.1rem;
         font-weight: 800;
         cursor: pointer;
+        box-shadow: 0 8px 20px rgba(255, 122, 24, 0.28);
       }
       .modal-send:active { transform: translateY(1px); }
       .modal-send:focus-visible {
@@ -449,11 +445,11 @@
         width: 100%;
         margin-top: 18px;
         min-height: 50px;
-        border-radius: 12px;
-        border: 2px solid var(--brand);
+        border-radius: 999px;
+        border: 1.5px solid var(--ink);
         background: transparent;
         color: var(--ink);
-        font-family: "Bricolage Grotesque", sans-serif;
+        font-family: "Public Sans", sans-serif;
         font-size: 1.05rem;
         font-weight: 700;
         cursor: pointer;
@@ -605,6 +601,7 @@
           </div>
         </div>
       </div>
+      <img class="brandmark" src="logo.png" alt="SMMA" />
     </main>
 
     <script>
